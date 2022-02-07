@@ -1,7 +1,10 @@
 import cors from 'cors';
 import express, { Request, Response } from 'express';
 import compression from 'compression';
-import { createModelNameUseCase, deleteModelNameUseCase, getModelNameListUseCase, getModelNameUseCase, updateModelNameUseCase } from './useCases';
+import {
+  createModelNameUseCase, deleteModelNameUseCase, getModelNameListUseCase, getModelNameUseCase,
+  updateModelNameUseCase,
+} from './useCases';
 import wrapResponse from './utils/wrapResponse';
 import { FAILED, SUCCESS } from './utils/constants';
 
@@ -33,7 +36,7 @@ app.post('/', async (req: Request, res: Response) => {
 
 app.get('/:id', async (req: Request, res: Response) => {
   try {
-    const id = req.params['id'];
+    const { id } = req.params;
     // TODO: Convert the `id` to integer if needed
     const modelName = await getModelNameUseCase.invoke(id);
     res.json(wrapResponse(SUCCESS, modelName));
@@ -44,7 +47,7 @@ app.get('/:id', async (req: Request, res: Response) => {
 
 app.put('/:id', async (req: Request, res: Response) => {
   try {
-    const id = req.params['id'];
+    const { id } = req.params;
     // TODO: Convert the `id` to integer if needed
     // TODO: Validate request body if needed
     const modelName = await updateModelNameUseCase.invoke(id, req.body);
@@ -56,7 +59,7 @@ app.put('/:id', async (req: Request, res: Response) => {
 
 app.delete('/:id', async (req: Request, res: Response) => {
   try {
-    const id = req.params['id'];
+    const { id } = req.params;
     // TODO: Convert the `id` to integer if needed
     await deleteModelNameUseCase.invoke(id);
     res.json(wrapResponse(SUCCESS, {}));

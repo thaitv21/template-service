@@ -1,13 +1,18 @@
-import { Column, Model, Table } from 'sequelize-typescript';
+import {
+  Column, CreatedAt, Model, Table, UpdatedAt,
+} from 'sequelize-typescript';
 import { ModelName } from '../../../../models/ModelName';
 
-@Table({ tableName: 'tours' })
-export default class TourModel extends Model implements ModelName {
+@Table({ tableName: 'modelNames' })
+export default class ModelNameModel extends Model implements ModelName {
   @Column
     name!: string;
 
-  @Column
-    date!: Date;
+  @CreatedAt
+    createdAt!: Date;
+
+  @UpdatedAt
+    updatedAt!: Date;
 
   toEntity = () => {
     const example : ModelName = {

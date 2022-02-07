@@ -1,3 +1,3 @@
-export const SUCCESS = 'Successfully!'
+export const SUCCESS = 'Successfully!';
 
-export const FAILED = 'Failed!'
+export const FAILED = 'Failed!';
