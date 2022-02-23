@@ -1,4 +1,4 @@
-import { ModelName } from "../../models/ModelName";
+import { ModelName } from '../../models/ModelName';
 
 export interface ModelNameRepository {
   list: () => Promise<Array<ModelName>>
