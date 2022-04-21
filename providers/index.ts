@@ -1,19 +1,13 @@
-// Declare providers which should be used in this service here
-
-import MongoProvider from './MongoProvider';
-import SequelizeProvider from './SequelizeProvider';
+import DynamoProvider from './DynamoProvider';
 
 interface Providers {
-  mongoProvider: MongoProvider,
-  sequelizeProvider: SequelizeProvider,
+  dynamoProvider: DynamoProvider,
 }
 
 const providers : Providers = {
-  mongoProvider: new MongoProvider(),
-  sequelizeProvider: new SequelizeProvider(),
+  dynamoProvider: new DynamoProvider(),
 };
 
 export const {
-  mongoProvider,
-  sequelizeProvider,
+  dynamoProvider,
 } = providers;

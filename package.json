@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "npx eslint . --ext .js,.jsx,.ts,.tsx",
-    "dev": "env-cmd -f .env.development --use-shell \"ts-node app.local.ts\"",
+    "dev": "nodemon app.local.ts",
     "build": "tsc"
   },
   "author": "",
@@ -15,6 +15,8 @@
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "express": "^4.17.2",
+    "express-validator": "^6.14.0",
+    "jwt-decode": "^3.1.2",
     "mongoose": "^6.1.4",
     "mysql2": "^2.3.3",
     "reflect-metadata": "^0.1.13",

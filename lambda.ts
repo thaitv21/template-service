@@ -1,13 +1,10 @@
 import serverlessExpress from '@vendia/serverless-express';
 import app from './app';
-import { mongoProvider, sequelizeProvider } from './providers';
 
 let serverlessExpressInstance: any;
 
 async function init() {
   // Initialize connection to database
-  await mongoProvider.connect();
-  await sequelizeProvider.connect();
 }
 
 async function setup(event: any, context: any) {
