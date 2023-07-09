@@ -1,5 +1,6 @@
 import cors from 'cors';
-import express, { Request, Response, NextFunction  } from 'express';
+import { getCurrentUserInfo } from 'decode-token';
+import express, { Request, Response, NextFunction } from 'express';
 import compression from 'compression';
 import {
   createModelNameUseCase, deleteModelNameUseCase, getModelNameListUseCase, getModelNameUseCase,
@@ -7,6 +8,8 @@ import {
 } from './useCases';
 import wrapResponse from './utils/wrapResponse';
 import { FAILED, SUCCESS } from './utils/constants';
+import validate, { createModelNameValidator, updateModelNameValidator } from './utils/validator';
+import logger from './utils/logger';
 
 const app = express();
 
@@ -23,46 +26,48 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use((req: Request, _res: Response, next: NextFunction) => {
-  console.log(`Request to ${req.method}: ${req.url}`);
+  logger.log(`Request to ${req.method}: ${req.url}`);
   next();
 });
 
-app.get('/', async (req: Request, res: Response) => {
+app.get('/modelNames', async (req: Request, res: Response) => {
   try {
-    const modelNames = await getModelNameListUseCase.invoke();
+    const currentUser = getCurrentUserInfo(req.headers.authorization!);
+    const modelNames = await getModelNameListUseCase.invoke(currentUser);
     res.json(wrapResponse(SUCCESS, modelNames));
   } catch {
     res.json(wrapResponse(FAILED, undefined));
   }
 });
 
-app.post('/', async (req: Request, res: Response) => {
+app.post('/modelNames', createModelNameValidator(), async (req: Request, res: Response) => {
   try {
-    // TODO: Validate request body if needed
-    const modelName = await createModelNameUseCase.invoke(req.body);
+    validate(req);
+    const currentUser = getCurrentUserInfo(req.headers.authorization!);
+    const modelName = await createModelNameUseCase.invoke(currentUser, req.body);
     res.json(wrapResponse(SUCCESS, modelName));
   } catch {
     res.json(wrapResponse(FAILED, undefined));
   }
 });
 
-app.get('/:id', async (req: Request, res: Response) => {
+app.get('/modelNames/:id', async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    // TODO: Convert the `id` to integer if needed
-    const modelName = await getModelNameUseCase.invoke(id);
+    const currentUser = getCurrentUserInfo(req.headers.authorization!);
+    const modelName = await getModelNameUseCase.invoke(currentUser, id);
     res.json(wrapResponse(SUCCESS, modelName));
   } catch {
     res.json(wrapResponse(FAILED, undefined));
   }
 });
 
-app.put('/:id', async (req: Request, res: Response) => {
+app.put('/modelNames/:id', updateModelNameValidator(), async (req: Request, res: Response) => {
   try {
+    validate(req);
     const { id } = req.params;
-    // TODO: Convert the `id` to integer if needed
-    // TODO: Validate request body if needed
-    const modelName = await updateModelNameUseCase.invoke(id, req.body);
+    const currentUser = getCurrentUserInfo(req.headers.authorization!);
+    const modelName = await updateModelNameUseCase.invoke(currentUser, id, req.body);
     res.json(wrapResponse(SUCCESS, modelName));
   } catch {
     res.json(wrapResponse(FAILED, undefined));
@@ -72,8 +77,8 @@ app.put('/:id', async (req: Request, res: Response) => {
 app.delete('/:id', async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    // TODO: Convert the `id` to integer if needed
-    await deleteModelNameUseCase.invoke(id);
+    const currentUser = getCurrentUserInfo(req.headers.authorization!);
+    await deleteModelNameUseCase.invoke(currentUser, id);
     res.json(wrapResponse(SUCCESS, {}));
   } catch {
     res.json(wrapResponse(FAILED, undefined));

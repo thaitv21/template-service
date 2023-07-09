@@ -1,6 +1,9 @@
 import { modelNameRepository } from '../repositories';
 import { GetModelNameUseCase } from './interfaces/GetModelNameUseCase';
+import { ModelName } from '../models/ModelName';
 
 export default class GetModelNameUseCaseImpl implements GetModelNameUseCase {
-  invoke = (id: string | number) => modelNameRepository.get(id);
+  invoke(tenantId: string, modelNameId: string): Promise<ModelName> {
+    return modelNameRepository.get(tenantId, modelNameId);
+  }
 }

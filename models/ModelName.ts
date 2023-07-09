@@ -1,3 +1,6 @@
 export interface ModelName {
-  name: string
+  code: string,
+  name: string,
+  createdAt: number,
+  updatedAt: number,
 }

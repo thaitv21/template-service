@@ -19,8 +19,14 @@ export default function validate(req: Request) {
   }
 }
 
-export function linkFacebookPageValidator() {
+export function createModelNameValidator() {
   return [
     header('authorization', 'must be JWT').isJWT(),
+  ];
+}
+
+export function updateModelNameValidator() {
+  return [
+
   ];
 }

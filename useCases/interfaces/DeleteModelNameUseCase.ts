@@ -1,3 +1,5 @@
+import { CognitoUser } from '../../models/CognitoUser';
+
 export interface DeleteModelNameUseCase {
-  invoke: (id: string | number) => Promise<void>;
+  invoke(currentUser: CognitoUser, modelNameId: string): Promise<void>,
 }
