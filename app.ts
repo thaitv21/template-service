@@ -2,6 +2,7 @@ import cors from 'cors';
 import { getCurrentUserInfo } from 'decode-token';
 import express, { Request, Response, NextFunction } from 'express';
 import compression from 'compression';
+import { logger } from 'core';
 import {
   createModelNameUseCase, deleteModelNameUseCase, getModelNameListUseCase, getModelNameUseCase,
   updateModelNameUseCase,
@@ -9,7 +10,6 @@ import {
 import wrapResponse from './utils/wrapResponse';
 import { FAILED, SUCCESS } from './utils/constants';
 import validate, { createModelNameValidator, updateModelNameValidator } from './utils/validator';
-import logger from './utils/logger';
 
 const app = express();
 
